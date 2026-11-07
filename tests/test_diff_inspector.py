@@ -99,6 +99,19 @@ def test_base_revision_sees_committed_work(repo_factory) -> None:
     assert report.added >= 2
 
 
+def test_base_accepts_an_empty_tree(repo_factory) -> None:
+    repo = repo_factory(
+        {"app/main.py": "x = 1\n", "tests/test_ok.py": "def test_x():\n    assert 1 < 2\n"}
+    )
+    empty_tree = repo.git("hash-object", "-t", "tree", "/dev/null").strip()
+
+    report = inspect(repo.root, base=empty_tree)
+
+    assert report.ok is True
+    assert "app/main.py" in report.python_files
+    assert report.added >= 3
+
+
 def test_unknown_base_revision_is_reported(repo_factory) -> None:
     repo = repo_factory({"app/main.py": "x = 1\n"})
 
@@ -106,6 +119,7 @@ def test_unknown_base_revision_is_reported(repo_factory) -> None:
 
     assert report.ok is False
     assert "unknown base revision" in report.message
+    assert "unknown base revision" in report.summary()
 
 
 def test_non_git_directory_is_rejected(tmp_path: Path) -> None:

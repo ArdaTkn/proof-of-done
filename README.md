@@ -250,7 +250,7 @@ src/proof_of_done/
 ├── test_runner.py         # gate 3: does the suite pass?
 ├── feedback_generator.py  # the surgical prompt for a rejected claim
 └── cli.py                 # rich terminal interface, exit codes
-tests/                     # 63 tests, no network, no fixtures to maintain
+tests/                     # 64 tests, no network, no fixtures to maintain
 ```
 
 ## License

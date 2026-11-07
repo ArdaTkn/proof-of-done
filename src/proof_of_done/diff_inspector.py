@@ -192,7 +192,7 @@ class DiffReport:
         if not self.is_git_repo:
             return self.message or "not a git repository"
         if not self.changes:
-            return f"no changes detected against {self.base}"
+            return self.message or f"no changes detected against {self.base}"
         files = len(self.changes)
         return (
             f"{files} file{'s' if files != 1 else ''} changed, +{self.added}/-{self.removed} lines"
@@ -317,7 +317,8 @@ def inspect(root: Path | str = ".", *, base: str | None = None) -> DiffReport:
 
     if base:
         try:
-            _git(resolved, "rev-parse", "--verify", "--quiet", f"{base}^{{commit}}")
+            # `^{tree}` accepts commits, tags and raw tree objects alike.
+            _git(resolved, "rev-parse", "--verify", "--quiet", f"{base}^{{tree}}")
         except GitError:
             message = f"unknown base revision: {base}"
             return DiffReport(resolved, True, (), message, base or "HEAD")
