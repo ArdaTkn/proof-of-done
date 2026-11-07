@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "proof-of-done"
+version = "0.1.0"
+description = "Deterministic verification gate that blocks false completion claims from AI coding agents."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Arda Tekin", email = "2003arda2003@gmail.com" }]
+keywords = ["ai-agents", "verification", "code-review", "ci", "pytest", "git-hooks", "llm"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Software Development :: Testing",
+  "Typing :: Typed",
+]
+dependencies = ["rich>=13.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+pod = "proof_of_done.cli:run"
+proof-of-done = "proof_of_done.cli:run"
+
+[project.urls]
+Homepage = "https://github.com/ArdaTkn/proof-of-done"
+Repository = "https://github.com/ArdaTkn/proof-of-done"
+Issues = "https://github.com/ArdaTkn/proof-of-done/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/proof_of_done"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]

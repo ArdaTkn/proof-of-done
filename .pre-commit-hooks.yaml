@@ -1,0 +1,14 @@
+# Hook definition for https://pre-commit.com
+# Usage:
+#   - repo: https://github.com/ArdaTkn/proof-of-done
+#     rev: v0.1.0
+#     hooks:
+#       - id: proof-of-done
+- id: proof-of-done
+  name: proof-of-done (verification gate)
+  description: Reject a "done" claim that has no diff, no parsing code, or a red test suite.
+  entry: pod check
+  language: python
+  pass_filenames: false
+  always_run: true
+  verbose: true
